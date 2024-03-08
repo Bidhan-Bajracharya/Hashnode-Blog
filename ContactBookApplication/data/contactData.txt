@@ -1,0 +1,3 @@
+John Doe, 9865342567, john@gmail.com
+Mary Jane, 9847691059, mary@gmail.com
+Peter Parker, 9863431243, peter@gmail.com
