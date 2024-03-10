@@ -3,6 +3,7 @@ class Inventory:
         self.items = {}
 
     def seedItems(self):
+        '''Default items'''
         defaultItemsSnacks = ['Oreo', 'Cheetos', 'Doritos']
         defaultItemsDrinks = ['Coke', 'Pepsi', 'Fanta']
 
@@ -13,10 +14,12 @@ class Inventory:
             self.items[item] = {'quantity': 30, 'price': 10}
 
     def browseItems(self):
+        '''Display all items'''
         for item in self.items:
             print(f"Name: {item}, Quantity: {self.items[item]['quantity']}, Price: {self.items[item]['price']}")
 
     def createItem(self, name, quantity, price):
+        '''Create new item'''
         if name not in self.items:
             self.items[name] = {'quantity': quantity, 'price': price}
             return "Item created successfully!\n"
@@ -24,6 +27,7 @@ class Inventory:
             return f"Item with name '{name}' already exists!\n"
 
     def addItem(self, name, quantity):
+        '''Update item stock quantity'''
         if name in self.items:
             self.items[name]['quantity'] += quantity
             return "Quantity updated successfully!\n"
@@ -31,6 +35,7 @@ class Inventory:
             return f"No item with name '{name}' exists!\n"
 
     def findItem(self, name):
+        '''Search item's detail'''
         if name in self.items:
             item = self.items[name]
             return f"Item name: {name}, Available Quantity: {item['quantity']}, Price: ${item['price']}\n"
@@ -38,6 +43,7 @@ class Inventory:
             return f"No item with name '{name}' exists!\n"
     
     def findItemPOS(self, name: str):
+        '''Returns item'''
         if name in self.items:
             item = self.items[name]
             return item
@@ -45,12 +51,14 @@ class Inventory:
             return None
 
     def udpateItem(self, name, newQuantity):
+        '''Update stock quantity'''
         if name in self.items:
             self.items[name]['quantity'] = newQuantity
         else:
             return f"No item with name '{name}' exists!\n"
         
     def deleteItem(self, name):
+        '''Remove item'''
         if name in self.items:
             del self.items[name]
             return f"Item '{name}' removed successfully!\n"
@@ -58,6 +66,7 @@ class Inventory:
             return f"No item with name '{name}' exists!\n"
     
     def totalStock(self):
+        '''Total items in stock'''
         sum = 0
         for item in self.items:
             sum = sum + self.items[item]['quantity']
