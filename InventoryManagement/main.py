@@ -1,5 +1,6 @@
 from Inventory import Inventory
 from Inventory import PointOfService
+from util import capitalizeFirstLetter
 
 inventory = Inventory()
 inventory.seedItems()
@@ -20,26 +21,26 @@ while(userLoggedIn):
         itemName = input('Enter item name: ')
         itemQuantity = input('Enter item quantity: ')
         itemPrice = input('Enter item price: ')
-        print(inventory.createItem(itemName, int(itemQuantity), float(itemPrice)))
+        print(inventory.createItem(capitalizeFirstLetter(itemName), int(itemQuantity), float(itemPrice)))
     elif(userPrompt == '3'):
         itemName = input('Enter item name: ')
         itemQuantity = input('Enter additional item quantity: ')
-        print(inventory.addItem(itemName, int(itemQuantity)))
+        print(inventory.addItem(capitalizeFirstLetter(itemName), int(itemQuantity)))
     elif(userPrompt == '4'):
         itemName = input('Enter item name: ')
-        print(inventory.findItem(itemName))
+        print(inventory.findItem(capitalizeFirstLetter(itemName)))
     elif(userPrompt == '5'):
         itemName = input('Enter item name to delete: ')
-        inventory.deleteItem(itemName)
+        inventory.deleteItem(capitalizeFirstLetter(itemName))
     elif(userPrompt == '6'):
         print(inventory.totalStock())
     elif(userPrompt == '7'):
         itemName = input('Enter item name: ')
         itemQuantity = input('Enter item quantity: ')
-        print(pos.purchaseItem(itemName, int(itemQuantity)))
+        print(pos.purchaseItem(capitalizeFirstLetter(itemName), int(itemQuantity)))
     elif(userPrompt == '8'):
         itemName = input('Enter item name: ')
         itemQuantity = input('Enter item quantity: ')
-        pos.returnItem(itemName, int(itemQuantity))
+        pos.returnItem(capitalizeFirstLetter(itemName), int(itemQuantity))
     elif(userPrompt == '9'):
         userLoggedIn = False
