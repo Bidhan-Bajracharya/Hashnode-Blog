@@ -2,46 +2,93 @@ class Inventory:
     def __init__(self):
         self.items = {}
 
-    def __str__(self):
-        return f"Interesting, I forgot about this"
+    def seedItems(self):
+        defaultItemsSnacks = ['Oreo', 'Cheetos', 'Doritos']
+        defaultItemsDrinks = ['Coke', 'Pepsi', 'Fanta']
+
+        for item in defaultItemsSnacks:
+            self.items[item] = {'quantity': 50, 'price': 15}
+
+        for item in defaultItemsDrinks:
+            self.items[item] = {'quantity': 30, 'price': 10}
+
+    def browseItems(self):
+        for item in self.items:
+            print(f"Name: {item}, Quantity: {self.items[item]['quantity']}, Price: {self.items[item]['price']}")
 
     def createItem(self, name, quantity, price):
         if name not in self.items:
             self.items[name] = {'quantity': quantity, 'price': price}
-            return "Item created successfully!"
+            return "Item created successfully!\n"
         else:
-            return f"Item with name '{name}' already exists!"
+            return f"Item with name '{name}' already exists!\n"
 
     def addItem(self, name, quantity):
         if name in self.items:
             self.items[name]['quantity'] += quantity
-            return "Quantity updated successfully!"
+            return "Quantity updated successfully!\n"
         else:
-            return f"No item with name '{name}' exists!"
+            return f"No item with name '{name}' exists!\n"
 
     def findItem(self, name):
         if name in self.items:
             item = self.items[name]
-            return f"Item name: {name}, Available Quantity: {item['quantity']}, Price: ${item['price']}"
+            return f"Item name: {name}, Available Quantity: {item['quantity']}, Price: ${item['price']}\n"
         else:
-            return f"No item with name '{name}' exists!"
+            return f"No item with name '{name}' exists!\n"
+    
+    def findItemPOS(self, name: str):
+        if name in self.items:
+            item = self.items[name]
+            return item
+        else:
+            return None
 
     def udpateItem(self, name, newQuantity):
         if name in self.items:
             self.items[name]['quantity'] = newQuantity
         else:
-            return f"No item with name '{name}' exists!"
+            return f"No item with name '{name}' exists!\n"
         
     def deleteItem(self, name):
         if name in self.items:
             del self.items[name]
-            return f"Item '{name}' removed successfully!"
+            return f"Item '{name}' removed successfully!\n"
         else:
-            return f"No item with name '{name}' exists!"
+            return f"No item with name '{name}' exists!\n"
     
     def totalStock(self):
         sum = 0
         for item in self.items:
             sum = sum + self.items[item]['quantity']
-        return f"There are in total {sum} items in stock."
-    
+        return f"There are in total {sum} items in stock.\n"
+
+class PointOfService:
+    def __init__(self, inventory: Inventory, tillBalance=0):
+        self.inventory = inventory
+        self.tillBalance = tillBalance
+
+    def purchaseItem(self, name, quantity):
+        item = self.inventory.findItemPOS(name)
+        if item:
+            if(item['quantity'] >= quantity):
+                totalCost = quantity * item['price']
+                if(totalCost <= self.tillBalance):
+                    self.tillBalance -= totalCost
+                    self.inventory.udpateItem(name, item['quantity'] - quantity)
+                    return f"Transaction successful. Total cost: ${totalCost}\n"
+                else:
+                    return 'Insufficient funds in the till!\n'
+            else:
+                return 'Insufficient quantity in stock!\n'
+        else:
+            return 'Item not found!\n'
+        
+    def returnItem(self, name, quantity):
+        item = self.inventory.findItemPOS(name)
+        if item:
+            self.tillBalance += item['price'] * quantity
+            self.inventory.udpateItem(name, item['quantity'] + quantity)
+            return f"Return successful. Refund: ${item['price'] * quantity}\n"
+        else:
+            return "Item not found in inventory.\n"

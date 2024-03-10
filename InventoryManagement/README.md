@@ -6,5 +6,5 @@ Create functions that allow user to:
 - Update item i.e., change quantity if there is a sale
 - Delete item i.e., no longer sold
 - Return total stock
-- purchase item and update inventory and till balance
+- Purchase item and update inventory and till balance
 - Return item and update inventory and till balance
