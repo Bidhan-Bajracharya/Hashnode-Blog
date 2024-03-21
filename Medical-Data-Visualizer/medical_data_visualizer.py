@@ -4,13 +4,30 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Import data
-df = None
+df = pd.read_csv('medical_examination.csv')
+
+def calc_overweight(bmi):
+    if(bmi > 25):
+        # is over weight
+        return 1
+    else:
+        # not over weight
+        return 0
+
+def normalize(level):
+    if level == 1:
+        return 0
+    elif level > 1:
+        return 1
 
 # Add 'overweight' column
-df['overweight'] = None
+height_in_meter = df['height'] * 0.01
+bmi = df['weight'] / np.square(height_in_meter)
+df['overweight'] = bmi.apply(calc_overweight)
 
 # Normalize data by making 0 always good and 1 always bad. If the value of 'cholesterol' or 'gluc' is 1, make the value 0. If the value is more than 1, make the value 1.
-
+df['cholesterol'] = df['cholesterol'].apply(normalize)
+df['gluc'] = df['gluc'].apply(normalize)
 
 # Draw Categorical Plot
 def draw_cat_plot():
