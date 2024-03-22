@@ -32,20 +32,18 @@ df['gluc'] = df['gluc'].apply(normalize)
 # Draw Categorical Plot
 def draw_cat_plot():
     # Create DataFrame for cat plot using `pd.melt` using just the values from 'cholesterol', 'gluc', 'smoke', 'alco', 'active', and 'overweight'.
-    df_cat = None
-
+    df_cat = pd.melt(df, id_vars=['cardio'], value_vars=['cholesterol', 'gluc', 'smoke', 'alco', 'active','overweight'])
 
     # Group and reformat the data to split it by 'cardio'. Show the counts of each feature. You will have to rename one of the columns for the catplot to work correctly.
-    df_cat = None
-    
+    df_cat = df_cat.groupby(['cardio', 'variable', 'value'], as_index = False).size().rename(columns={'size' : 'total'}) # in long format
 
     # Draw the catplot with 'sns.catplot()'
-
-
+    # hue = creates sub-group based on unique values
+    # col = create seperate plots based on unique values
+    plot = sns.catplot(data=df_cat, x='variable', y='total', kind='bar', hue='value', col='cardio')
 
     # Get the figure for the output
-    fig = None
-
+    fig = plot
 
     # Do not modify the next two lines
     fig.savefig('catplot.png')
