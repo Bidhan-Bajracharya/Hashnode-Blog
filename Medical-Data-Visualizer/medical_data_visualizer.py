@@ -23,6 +23,7 @@ def normalize(level):
 # Add 'overweight' column
 height_in_meter = df['height'] * 0.01
 bmi = df['weight'] / np.square(height_in_meter)
+
 df['overweight'] = bmi.apply(calc_overweight)
 
 # Normalize data by making 0 always good and 1 always bad. If the value of 'cholesterol' or 'gluc' is 1, make the value 0. If the value is more than 1, make the value 1.
@@ -40,10 +41,10 @@ def draw_cat_plot():
     # Draw the catplot with 'sns.catplot()'
     # hue = creates sub-group based on unique values
     # col = create seperate plots based on unique values
-    plot = sns.catplot(data=df_cat, x='variable', y='total', kind='bar', hue='value', col='cardio')
+    fig = sns.catplot(data=df_cat, x='variable', y='total', kind='bar', hue='value', col='cardio').fig
 
     # Get the figure for the output
-    fig = plot
+    # fig = plot.figure()
 
     # Do not modify the next two lines
     fig.savefig('catplot.png')
@@ -63,16 +64,13 @@ def draw_heat_map():
     corr = df_heat.corr()
 
     # Generate a mask for the upper triangle
-    mask = np.triu(np.ones_like(corr, dtype=bool))
-
-
+    mask = np.triu(corr)
 
     # Set up the matplotlib figure
     fig, ax = plt.subplots(figsize=(10, 8))
 
     # Draw the heatmap with 'sns.heatmap()'
-    sns.heatmap(corr, mask=mask, cmap='coolwarm', annot=True, fmt=".2f", square=True, linewidths=0.5)
-
+    ax = sns.heatmap(corr, mask=mask, annot=True, fmt="0.1f", square=True, linewidths=0.5)
 
     # Do not modify the next two lines
     fig.savefig('heatmap.png')
